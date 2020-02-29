@@ -1,3 +1,5 @@
+import time
+
 import cv2
 import numpy as np
 from lib.utils import get_img_list,get_ground_truthes,APCE,PSR
@@ -24,7 +26,7 @@ class PyTracker:
         self.tracker_type=tracker_type
         self.frame_list = get_img_list(img_dir)
         self.frame_list.sort()
-        dataname=img_dir.split('/')[-2]
+        dataname=img_dir.split('\\')[-2]
         self.gts=get_ground_truthes(img_dir[:-4])
         if dataname in dataset_config.frames.keys():
             start_frame,end_frame=dataset_config.frames[dataname][0:2]
@@ -104,7 +106,9 @@ class PyTracker:
             if idx != 0:
                 current_frame=cv2.imread(self.frame_list[idx])
                 height,width=current_frame.shape[:2]
+                start=time.time()
                 bbox=self.tracker.update(current_frame,vis=verbose)
+                print('track time',time.time()-start,current_frame.shape)
                 x1,y1,w,h=bbox
                 if verbose is True:
                     if len(current_frame.shape)==2:

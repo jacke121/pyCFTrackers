@@ -3,7 +3,7 @@ from examples.pytracker import PyTracker
 from lib.utils import get_ground_truthes,plot_precision,plot_success
 from examples.otbdataset_config import OTBDatasetConfig
 if __name__ == '__main__':
-    data_dir='../dataset/test'
+    data_dir=r'D:\data\OTB100\OTB100'
     data_names=sorted(os.listdir(data_dir))
 
     print(data_names)
@@ -16,7 +16,8 @@ if __name__ == '__main__':
             if data_name!='David':
                 gts=gts[start_frame-1:end_frame]
         img_dir = os.path.join(data_path,'img')
-        tracker = PyTracker(img_dir,tracker_type='STRCF',dataset_config=dataset_config)
+        tracker = PyTracker(img_dir,tracker_type='KCF_HOG',dataset_config=dataset_config)
+        # tracker = PyTracker(img_dir,tracker_type='Staple-CA',dataset_config=dataset_config)
         poses=tracker.tracking(verbose=True,video_path=os.path.join('../results/CF',data_name+'_vis.avi'))
         plot_success(gts,poses,os.path.join('../results/CF',data_name+'_success.jpg'))
         plot_precision(gts,poses,os.path.join('../results/CF',data_name+'_precision.jpg'))

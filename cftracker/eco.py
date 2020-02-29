@@ -4,7 +4,7 @@ StrangerZhang's pyECO for comparing performance of different tracker.
 """
 
 import numpy as np
-from .base import BaseCF
+from cftracker.base import BaseCF
 from lib.eco.tracker import ECOTracker
 import cv2
 
